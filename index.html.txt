@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem Bài Tarot - Đặt Câu Hỏi & AI Phân Tích</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; 
+            background-color: #0a0a12; 
+            overflow-x: hidden;
+            color: #EAE0C8; 
+            padding-top: 1rem; 
+        }
+
+        #animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -10; 
+            overflow: hidden;
+            background-image: url('cid:uploaded:76363ee1c9bed71a54cfe87982e86447.jpg-cf7bdb21-8076-425c-afd3-2e18ec3d669b'); 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+ 
+        #question-section-content h2, 
+        .tarot-card-front, 
+        .btn-action, 
+        .card-info-title, 
+        .ai-title, 
+        #display-user-question
+        {
+            font-family: 'Playfair Display', serif; 
+        }
+        .tarot-card-front {
+            font-family: 'IM Fell English SC', serif;
+        }
+
+
+        #question-section-content h2 { font-weight: 600; font-size: 1.75rem; color: #FFD700; }
+        .ai-title { font-weight: 700; font-size: 1.75rem; }
+        .card-info-title { font-weight: 600; font-size: 1.3rem; } 
+        .btn-action { font-weight: 600; } 
+        #display-user-question { font-weight: 400; font-style: italic; font-size: 1.1rem; color: #F5DEB3; }
+
+
+        p, 
+        #user-question-input::placeholder, 
+        .card-info-meaning, 
+        .ai-text, 
+        .ai-text .highlighted-card-name, 
+        .ai-text strong, 
+        .ai-text em,
+        #initial-info-message, 
+        #message-text
+        {
+             font-family: 'Inter', sans-serif;
+        }
+        #user-question-input {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .tarot-card-front span { 
+            font-size: 2.5rem; 
+        }
+
+
+        .firefly {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: rgba(220, 255, 170, 0.8); 
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(220, 255, 170, 0.7), 
+                        0 0 10px 4px rgba(255, 255, 224, 0.5); 
+            animation: firefly-movement 10s infinite;
+            opacity: 0; 
+        }
+
+        @keyframes firefly-movement {
+            0%, 100% { opacity: 0.3; transform: scale(0.8) translate(0,0); }
+            25% { opacity: 1; transform: scale(1.2) translate(20px, -30px); }
+            50% { opacity: 0.8; transform: scale(1) translate(-15px, 25px); }
+            75% { opacity: 1; transform: scale(1.1) translate(10px, 15px); }
+        }
+
+        .firefly:nth-child(1) { top: 20%; left: 10%; animation-duration: 12s; animation-delay: 0s; }
+        .firefly:nth-child(2) { top: 50%; left: 80%; animation-duration: 9s; animation-delay: 1s; width: 2px; height: 2px;}
+        .firefly:nth-child(3) { top: 80%; left: 30%; animation-duration: 15s; animation-delay: 2.5s; }
+        .firefly:nth-child(4) { top: 10%; left: 90%; animation-duration: 10s; animation-delay: 4s; width: 4px; height: 4px;}
+        .firefly:nth-child(5) { top: 65%; left: 50%; animation-duration: 13s; animation-delay: 1.5s; }
+        .firefly:nth-child(6) { top: 35%; left: 60%; animation-duration: 11s; animation-delay: 3s; width: 2px; height: 2px;}
+        .firefly:nth-child(7) { top: 90%; left: 5%; animation-duration: 14s; animation-delay: 0.5s; }
+        .firefly:nth-child(8) { top: 5%; left: 40%; animation-duration: 8s; animation-delay: 5s; }
+        .firefly:nth-child(9) { top: 40%; left: 20%; animation-duration: 12s; animation-delay: 2s; width:3px; height:3px;}
+        .firefly:nth-child(10) { top: 75%; left: 70%; animation-duration: 10s; animation-delay: 3.5s; }
+
+        .card-base {
+            width: 100px; 
+            height: 170px; 
+            border-radius: 8px;
+            background-color: #A0522D; 
+            border: 2px solid #8B4513;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'IM Fell English SC', serif;
+            color: #F5DEB3;
+            font-size: 1.8rem;
+            position: absolute; 
+        }
+
+        #deck-pile {
+            position: relative; 
+            width: 110px; 
+            height: 180px;
+            margin: 20px auto; 
+            cursor: pointer; 
+        }
+        #deck-pile .card-base {
+            transition: transform 0.3s ease-out;
+        }
+        #deck-pile.shuffling .card-base:nth-child(1) { transform: translate(5px, -5px) rotate(5deg); }
+        #deck-pile.shuffling .card-base:nth-child(2) { transform: translate(-5px, 0px) rotate(-3deg); }
+        #deck-pile.shuffling .card-base:nth-child(3) { transform: translate(3px, 5px) rotate(2deg); }
+
+
+        #cards-display-area {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            min-height: 200px; 
+            gap: 20px; 
+            margin-bottom: 2rem;
+        }
+
+        .tarot-card-slot {
+            width: 100px; 
+            height: 170px;
+            perspective: 1000px;
+            border-radius: 8px;
+            position: relative; 
+        }
+
+        .tarot-card-inner {
+            position: absolute; 
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s, opacity 0.5s;
+            transform-style: preserve-3d;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0; 
+        }
+        .tarot-card-inner.dealt {
+            opacity: 1;
+        }
+
+        .tarot-card-slot.flipped .tarot-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .tarot-card-front, .tarot-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tarot-card-front { 
+            background-color: #A0522D;
+            color: #F5DEB3;
+            border: 2px solid #8B4513;
+        }
+        .tarot-card-front span { font-size: 2rem; }
+
+
+        .tarot-card-back {
+            background-color: #F5F5DC; /* Màu nền mặc định cho mặt thẻ, sẽ bị ảnh che */
+            color: #5D4037;
+            transform: rotateY(180deg);
+            overflow: hidden;
+        }
+
+        .tarot-card-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            border-radius: 8px;
+            background-color: #F5F5DC; /* Màu nền fallback cho thẻ img nếu ảnh lỗi */
+        }
+
+        .btn-action { 
+            transition: all 0.3s ease;
+        }
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        .btn-submit-question {
+            background-color: #FFD700; 
+            color: #4A2311; 
+            border: 1px solid #B8860B; 
+            text-shadow: none; 
+            font-size: 1.1rem; 
+            padding-top: 0.85rem; 
+            padding-bottom: 0.85rem;
+        }
+        .btn-submit-question:hover {
+            background-color: #F0C000; 
+            color: #3D1B0C;
+        }
+        #reset-cards-button {
+            background-color: #8B0000; 
+            color: #FFEBCD; 
+            border: 1px solid #580000;
+            font-size: 1.1rem;
+            padding-top: 0.85rem; 
+            padding-bottom: 0.85rem;
+        }
+        #reset-cards-button:hover {
+            background-color: #580000; 
+        }
+
+
+        .info-section-container {
+            background-color: rgba(40, 20, 0, 0.85); 
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(210, 180, 140, 0.3); 
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 1rem; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 720px;
+        }
+        .card-info-title { 
+            color: #FFD700; 
+            margin-bottom: 5px;
+        }
+        .card-info-meaning { 
+            font-size: 0.95rem;
+            color: #F5F5DC; 
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        .ai-interpretation-container {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(210, 180, 140, 0.4); 
+        }
+        .ai-title { 
+            font-size: 1.75rem; 
+            color: #DAA520; 
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .ai-text { 
+            font-size: 1rem;
+            color: #EAE0C8; 
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .ai-text .highlighted-card-name { 
+            color: #FFDEAD; 
+            font-weight: bold; 
+        }
+        .ai-text strong { 
+            color: #FFB74D; 
+            font-weight: bold; 
+        }
+        .ai-text em { 
+            color: #FFE0B2; 
+            font-style: italic;
+        }
+        
+        #question-section-content { 
+            background-color: rgba(60, 40, 20, 0.7); 
+            backdrop-filter: blur(5px); 
+            padding: 30px;
+            border-radius: 1rem; 
+            margin-bottom: 30px; 
+            width: 100%;
+            max-width: 700px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4); 
+            border: 1px solid rgba(210, 180, 140, 0.25); 
+        }
+        #question-section-content h2 { 
+             color: #FFD700; 
+             margin-bottom: 1.25rem; 
+        }
+
+        #user-question-input { 
+            background-color: transparent; 
+            border: none; 
+            color: #FFF8DC; 
+            padding: 0.75rem 0.25rem; 
+            border-radius: 0; 
+            font-size: 1.6rem; 
+            line-height: 1.5; 
+            min-height: 80px; 
+            resize: none; 
+            outline: none; 
+            width: 100%; 
+            text-align: center; 
+        }
+
+        #user-question-input::placeholder { 
+            color: rgba(210, 180, 140, 0.7); 
+            font-family: 'Playfair Display', serif; 
+            font-style: italic;
+            font-size: 1.6rem; 
+            animation: blink-placeholder 1.5s infinite;
+            text-align: center; 
+        }
+
+        #user-question-input:focus::placeholder {
+            animation: none;
+            opacity: 0.4;
+        }
+        #user-question-input:not(:placeholder-shown)::placeholder {
+            display: none;
+        }
+
+
+        @keyframes blink-placeholder {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+
+        .transitionable-section {
+            transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        .section-hidden-state {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95); 
+            pointer-events: none;
+        }
+
+        .section-visible-state {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .loader {
+            border: 5px solid #8B4513; 
+            border-top: 5px solid #FFD700; 
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+    <div id="animated-background">
+        </div>
+
+    <div class="w-full max-w-3xl mx-auto text-center relative z-10"> 
+        <div id="question-section-wrapper" class="transitionable-section">
+            <div id="question-section-content">
+                <h2 class="mb-5">Nói cho ta biết, điều gì ngươi tìm kiếm?</h2>
+                <textarea id="user-question-input" placeholder="Ví dụ: Con đường nào đang mở ra cho ta?"></textarea>
+                <button id="submit-question-button" class="btn-action btn-submit-question py-3 px-8 rounded-lg shadow-md mt-6 w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-75">
+                    Khám Phá Thông Điệp Tarot
+                </button>
+            </div>
+        </div>
+
+        <div id="tarot-reading-section-wrapper" class="transitionable-section hidden">
+            <div id="tarot-reading-section-content">
+                <p id="display-user-question" class="mt-2 mb-6"></p>
+                
+                <div id="deck-container" class="mb-8 hidden"> <p class="text-amber-200 mb-2 text-lg">Đang xào bài...</p>
+                    <div id="deck-pile">
+                        </div>
+                </div>
+
+                <div id="cards-display-area" class="mb-8 flex flex-wrap justify-center items-start">
+                    <div id="card-slot-0" class="tarot-card-slot">
+                        <div class="tarot-card-inner" data-card-index="0">
+                            <div class="tarot-card-front"><span>🂠</span></div>
+                            <div class="tarot-card-back">
+                                <img src="" alt="Lá bài 1" id="card-img-0">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="card-slot-1" class="tarot-card-slot">
+                        <div class="tarot-card-inner" data-card-index="1">
+                            <div class="tarot-card-front"><span>🂠</span></div>
+                            <div class="tarot-card-back">
+                                <img src="" alt="Lá bài 2" id="card-img-1">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="card-slot-2" class="tarot-card-slot">
+                        <div class="tarot-card-inner" data-card-index="2">
+                            <div class="tarot-card-front"><span>🂠</span></div>
+                            <div class="tarot-card-back">
+                                <img src="" alt="Lá bài 3" id="card-img-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reset-button-container" class="mt-6 mb-4 hidden">
+                    <button id="reset-cards-button" class="btn-action py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75">
+                        Hỏi Lời Sấm Khác
+                    </button>
+                </div>
+
+                <div id="info-display-section" class="info-section-container text-left hidden">
+                    <div id="original-meanings-container">
+                        <p id="initial-info-message" class="text-amber-100 text-center text-lg">Lời tiên tri đang chờ đợi... Hãy chọn một lá bài!</p>
+                        <div id="card-info-0" class="mb-4 p-3 bg-black bg-opacity-30 rounded-md hidden">
+                            <h3 id="card-name-0" class="card-info-title"></h3>
+                            <p id="card-meaning-0" class="card-info-meaning"></p>
+                        </div>
+                        <div id="card-info-1" class="mb-4 p-3 bg-black bg-opacity-30 rounded-md hidden">
+                            <h3 id="card-name-1" class="card-info-title"></h3>
+                            <p id="card-meaning-1" class="card-info-meaning"></p>
+                        </div>
+                        <div id="card-info-2" class="p-3 bg-black bg-opacity-30 rounded-md hidden">
+                            <h3 id="card-name-2" class="card-info-title"></h3>
+                            <p id="card-meaning-2" class="card-info-meaning"></p>
+                        </div>
+                    </div>
+
+                    <div id="ai-interpretation-container" class="ai-interpretation-container hidden">
+                        <h2 class="ai-title">📜 Lời Giải Từ Vì Sao 📜</h2>
+                        <div id="ai-loading-indicator" class="loader hidden"></div>
+                        <p id="ai-interpretation-text" class="ai-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div id="message-box" class="fixed top-5 right-5 bg-red-700 text-gray-100 p-4 rounded-lg shadow-xl hidden animate-pulse z-50">
+            <p id="message-text"></p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const animatedBackground = document.getElementById('animated-background');
+        const questionSectionWrapper = document.getElementById('question-section-wrapper');
+        const tarotReadingSectionWrapper = document.getElementById('tarot-reading-section-wrapper');
+        
+        const userQuestionInput = document.getElementById('user-question-input');
+        const submitQuestionButton = document.getElementById('submit-question-button');
+        const displayUserQuestionElement = document.getElementById('display-user-question');
+
+        const deckContainer = document.getElementById('deck-container');
+        const deckPile = document.getElementById('deck-pile');
+        const cardSlotsElements = [ 
+            document.getElementById('card-slot-0'),
+            document.getElementById('card-slot-1'),
+            document.getElementById('card-slot-2')
+        ];
+        const cardInnerElements = document.querySelectorAll('#cards-display-area .tarot-card-inner');
+
+
+        const cardImages = [ 
+            document.getElementById('card-img-0'), 
+            document.getElementById('card-img-1'),
+            document.getElementById('card-img-2')
+        ];
+        const cardInfoDivs = [
+            document.getElementById('card-info-0'), 
+            document.getElementById('card-info-1'),
+            document.getElementById('card-info-2')
+        ];
+        const cardNamesElements = [
+            document.getElementById('card-name-0'), 
+            document.getElementById('card-name-1'),
+            document.getElementById('card-name-2')
+        ];
+        const cardMeaningsElements = [
+            document.getElementById('card-meaning-0'), 
+            document.getElementById('card-meaning-1'),
+            document.getElementById('card-meaning-2')
+        ];
+        const initialInfoMessage = document.getElementById('initial-info-message');
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+        const resetButtonContainer = document.getElementById('reset-button-container');
+        const resetButton = document.getElementById('reset-cards-button');
+
+        const infoDisplaySection = document.getElementById('info-display-section');
+        const originalMeaningsContainer = document.getElementById('original-meanings-container');
+        const aiInterpretationContainer = document.getElementById('ai-interpretation-container');
+        const aiLoadingIndicator = document.getElementById('ai-loading-indicator');
+        const aiInterpretationTextElement = document.getElementById('ai-interpretation-text');
+
+        /*
+         * QUAN TRỌNG: Đây là nơi bạn sẽ cập nhật URL hình ảnh lá bài Tarot thực tế.
+         * Các URL dưới đây là từ postimg.cc bạn đã cung cấp cho 22 lá Major Arcana.
+         * Nếu muốn sử dụng toàn bộ 78 lá, bạn cần mở rộng danh sách này và có thể cần điều chỉnh logic rút bài.
+        */
+        const tarotDeck = [
+            // Major Arcana (22 lá) - Sử dụng URL từ postimg.cc
+            { name: "0 - The Fool", nameParts: ["The Fool", "Fool"], meaning: "Sự khởi đầu mới, ngây thơ, phiêu lưu, tiềm năng không giới hạn, sự tự phát.", img: "https://i.postimg.cc/5ND6VgDK/643e305b9f205802596736.jpg" }, 
+            { name: "I - The Magician", nameParts: ["The Magician", "Magician"], meaning: "Sức mạnh ý chí, kỹ năng, hành động, tập trung, biểu hiện, tài nguyên.", img: "https://i.postimg.cc/5NpW52SB/643f51cebd6fc372602918.jpg" }, 
+            { name: "II - The High Priestess", nameParts: ["The High Priestess", "High Priestess"], meaning: "Trực giác, bí ẩn, tiềm thức, trí tuệ nội tâm, sự kiên nhẫn.", img: "https://i.postimg.cc/9XnGDGvZ/6440bfeb45daa924620828.jpg" }, 
+            { name: "III - The Empress", nameParts: ["The Empress", "Empress"], meaning: "Sự nuôi dưỡng, phong phú, nữ tính, sáng tạo, vẻ đẹp tự nhiên, sự sinh sôi.", img: "https://i.postimg.cc/sxh4Jc8B/64421dc3642e5331994313.jpg" }, 
+            { name: "IV - The Emperor", nameParts: ["The Emperor", "Emperor"], meaning: "Quyền lực, cấu trúc, sự kiểm soát, lý trí, người cha, sự ổn định.", img: "https://i.postimg.cc/Nfb5zTcL/6440ca04423aa803088771.jpg" }, 
+            { name: "V - The Hierophant", nameParts: ["The Hierophant", "Hierophant"], meaning: "Truyền thống, đức tin, giáo dục, hướng dẫn tinh thần, sự tuân thủ.", img: "https://i.postimg.cc/wjygQsxC/6442143cc6d12721675057.jpg" }, 
+            { name: "VI - The Lovers", nameParts: ["The Lovers", "Lovers"], meaning: "Tình yêu, mối quan hệ, sự lựa chọn, sự hòa hợp, giá trị, sự liên kết.", img: "https://i.postimg.cc/hG4F3zK4/643f75de5fa42187988494.jpg" }, 
+            { name: "VII - The Chariot", nameParts: ["The Chariot", "Chariot"], meaning: "Ý chí, quyết tâm, chiến thắng, sự kiểm soát, tiến về phía trước, sự tự tin.", img: "https://i.postimg.cc/j2PkjtRk/64466e1bb9588170152785.jpg" }, 
+            { name: "VIII - Strength", nameParts: ["Strength"], meaning: "Sức mạnh nội tâm, lòng dũng cảm, sự kiên nhẫn, kiểm soát bản năng, lòng trắc ẩn.", img: "https://i.postimg.cc/mg2VvQ1n/6446754309a08059278429.jpg" }, 
+            { name: "IX - The Hermit", nameParts: ["The Hermit", "Hermit"], meaning: "Sự suy ngẫm, cô tịch, tìm kiếm nội tâm, trí tuệ, hướng dẫn, sự tự giác.", img: "https://i.postimg.cc/4xmVvw9X/644776cd15b36247793217.jpg" }, 
+            { name: "X - Wheel of Fortune", nameParts: ["Wheel of Fortune", "Wheel"], meaning: "Chu kỳ, số phận, sự thay đổi, may mắn, bước ngoặt, cơ hội.", img: "https://i.postimg.cc/qRjv5VPS/6448a1d65ca2c307025465.jpg" }, 
+            { name: "XI - Justice", nameParts: ["Justice"], meaning: "Sự thật, công bằng, luật nhân quả, trách nhiệm, sự rõ ràng, quyết định.", img: "https://i.postimg.cc/J7ss2thQ/64477df6d145b114005354.jpg" }, 
+            { name: "XII - The Hanged Man", nameParts: ["The Hanged Man", "Hanged Man"], meaning: "Sự hy sinh, góc nhìn mới, buông bỏ, đình chỉ, sự kiên nhẫn.", img: "https://i.postimg.cc/pXV6vNgk/6448ab982e324297578895.jpg" }, 
+            { name: "XIII - Death", nameParts: ["Death"], meaning: "Sự kết thúc, chuyển đổi, tái sinh.", img: "https://i.postimg.cc/g0pR9p72/6449de96464fc931611065.jpg" }, 
+            { name: "XIV - Temperance", nameParts: ["Temperance"], meaning: "Sự cân bằng, điều độ, hòa hợp.", img: "https://i.postimg.cc/jS46SCP7/644a8f06a2a97262712511.jpg" }, 
+            { name: "XV - The Devil", nameParts: ["The Devil", "Devil"], meaning: "Sự ràng buộc, cám dỗ, nghiện ngập.", img: "https://i.postimg.cc/L6Bgzw5d/644b42ed90c7e737329635.jpg" }, 
+            { name: "XVI - The Tower", nameParts: ["The Tower", "Tower"], meaning: "Sự thay đổi đột ngột, biến động.", img: "https://i.postimg.cc/qMjMBTg7/644b642cce4fe891891452.jpg" }, 
+            { name: "XVII - The Star", nameParts: ["The Star", "Star"], meaning: "Hy vọng, cảm hứng, niềm tin.", img: "https://i.postimg.cc/vHcHmKnL/6450948daadbc805081217.jpg" }, 
+            { name: "XVIII - The Moon", nameParts: ["The Moon", "Moon"], meaning: "Trực giác, ảo ảnh, nỗi sợ.", img: "https://i.postimg.cc/fbKJd9Rx/6450a08c8eb21261517572.jpg" }, 
+            { name: "XIX - The Sun", nameParts: ["The Sun", "Sun"], meaning: "Niềm vui, thành công, sự rõ ràng.", img: "https://i.postimg.cc/Kv0btDPc/642c49cb896c6121395135.png" }, 
+            { name: "XX - Judgement", nameParts: ["Judgement"], meaning: "Sự phán xét, sự thức tỉnh, sự tha thứ.", img: "https://i.postimg.cc/k5bDjpsv/642c49bf40ad6363634537.png" }, // Lưu ý: Link ảnh này giống với The World, bạn có thể cần kiểm tra lại
+            { name: "XXI - The World", nameParts: ["The World", "World"], meaning: "Sự hoàn thành, thành tựu, trọn vẹn.", img: "https://i.postimg.cc/k5bDjpsv/642c49bf40ad6363634537.png" } // Lưu ý: Link ảnh này giống với Judgement
+            // Nếu bạn muốn sử dụng toàn bộ 78 lá, hãy thêm các lá Minor Arcana vào đây
+            // với định dạng tương tự, ví dụ:
+            // { name: "Ace of Wands", nameParts: ["Ace of Wands"], meaning: "Ý nghĩa của Ace of Wands...", img: "URL_CUA_BAN_CHO_ACE_OF_WANDS" },
+            // ... (tiếp tục cho các lá còn lại)
+        ];
+
+
+        let revealedCount = 0;
+        let availableCards = [];
+        let drawnCardsData = []; 
+        let currentUserQuestion = "";
+        let isDealing = false; 
+
+        function showMessage(message, duration = 3000) {
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden');
+            setTimeout(() => { messageBox.classList.add('hidden'); }, duration);
+        }
+
+        function enableResetButton() { resetButtonContainer.classList.remove('hidden'); }
+        function disableResetButton() { resetButtonContainer.classList.add('hidden'); }
+        function escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+        function createFireflies(count) {
+            for (let i = 0; i < count; i++) {
+                const firefly = document.createElement('div');
+                firefly.classList.add('firefly');
+                firefly.style.top = `${Math.random() * 100}%`;
+                firefly.style.left = `${Math.random() * 100}%`;
+                firefly.style.animationDelay = `${Math.random() * 5}s`; 
+                firefly.style.animationDuration = `${8 + Math.random() * 7}s`; 
+                if (Math.random() > 0.6) { 
+                    const size = `${2 + Math.random() * 2}px`;
+                    firefly.style.width = size;
+                    firefly.style.height = size;
+                }
+                animatedBackground.appendChild(firefly);
+            }
+        }
+
+        function createDeckVisual() {
+            deckPile.innerHTML = ''; 
+            for (let i = 0; i < 5; i++) { 
+                const cardEl = document.createElement('div');
+                cardEl.classList.add('card-base');
+                cardEl.style.bottom = `${i * 2}px`; 
+                cardEl.style.left = `${i * 1}px`;
+                cardEl.style.transform = `rotate(${Math.random() * 4 - 2}deg)`; 
+                cardEl.textContent = '🂠'; 
+                deckPile.appendChild(cardEl);
+            }
+        }
+
+        async function shuffleAndDeal() {
+            isDealing = true;
+            deckContainer.classList.remove('hidden');
+            deckPile.classList.add('shuffling');
+            deckContainer.querySelector('p').textContent = "Đang xào bài...";
+            
+            await new Promise(resolve => setTimeout(resolve, 1500)); 
+            deckPile.classList.remove('shuffling');
+            deckContainer.querySelector('p').textContent = "Đang chia bài...";
+
+            drawnCardsData = []; 
+            // Chỉ rút từ Major Arcana nếu tarotDeck chỉ chứa Major Arcana
+            // Nếu tarotDeck chứa cả 78 lá, logic này vẫn hoạt động để rút ngẫu nhiên từ toàn bộ
+            availableCards = [...tarotDeck]; 
+
+            for (let i = 0; i < 3; i++) {
+                if (availableCards.length === 0) break;
+
+                const randomIndex = Math.floor(Math.random() * availableCards.length);
+                const selectedCardData = availableCards.splice(randomIndex, 1)[0];
+                
+                const cardInnerEl = cardInnerElements[i];
+                const cardSlotEl = cardSlotsElements[i];
+                const cardImgEl = cardInnerEl.querySelector('.tarot-card-back img');
+                const cardFrontSymbolEl = cardInnerEl.querySelector('.tarot-card-front span');
+
+                drawnCardsData.push({ data: selectedCardData, element: cardInnerEl, slot: cardSlotEl });
+
+                cardFrontSymbolEl.textContent = '🂠'; 
+                cardImgEl.src = ""; 
+                cardImgEl.alt = selectedCardData.name;
+                
+                const movingCard = document.createElement('div');
+                movingCard.classList.add('card-base');
+                movingCard.textContent = '🂠';
+                movingCard.style.position = 'fixed'; 
+                const deckRect = deckPile.getBoundingClientRect();
+                movingCard.style.left = `${deckRect.left + window.scrollX}px`;
+                movingCard.style.top = `${deckRect.top + window.scrollY}px`;
+                document.body.appendChild(movingCard);
+
+                await new Promise(resolve => setTimeout(resolve, 200)); 
+
+                const slotRect = cardSlotEl.getBoundingClientRect();
+                movingCard.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
+                movingCard.style.transform = `translate(${slotRect.left + window.scrollX - deckRect.left}px, ${slotRect.top + window.scrollY - deckRect.top}px) rotateY(0deg)`;
+                movingCard.style.opacity = '1';
+
+                await new Promise(resolve => setTimeout(resolve, 500)); 
+                
+                document.body.removeChild(movingCard);
+                cardInnerEl.classList.add('dealt'); 
+            }
+            deckContainer.classList.add('hidden');
+            initialInfoMessage.classList.remove('hidden');
+            infoDisplaySection.classList.remove('hidden'); 
+            isDealing = false;
+        }
+
+
+        async function getAIInterpretation(cardsInfo, userQuestion) {
+            aiInterpretationContainer.classList.remove('hidden');
+            aiLoadingIndicator.classList.remove('hidden');
+            aiInterpretationTextElement.innerHTML = '';
+            const cardFullNames = cardsInfo.map(ci => ci.data.name);
+
+            const prompt = `Bạn là một người đọc bài Tarot uyên bác và huyền bí, mang giọng văn cổ xưa như một nhà tiên tri. Người tìm kiếm có một thắc mắc: "${userQuestion}". Họ đã rút được 3 lá bài thiêng: ${cardFullNames.join(', ')}. Dựa trên sự thông tuệ Tarot của bạn, hãy vén màn bí mật, giải thích ý nghĩa tổng hợp của 3 lá bài này trong mối liên hệ với câu hỏi của họ. Hãy đưa ra một lời sấm truyền chi tiết, sâu sắc và mang tính chỉ dẫn. Trong lời tiên tri của bạn, hãy nhấn mạnh những từ khóa hoặc khái niệm Tarot quan trọng bằng cách đặt chúng trong dấu hai hoa thị (ví dụ: **vận mệnh** hoặc **khởi đầu mới**).`;
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) {
+                    const errorData = await response.json(); throw new Error(`Lỗi từ các vì sao: ${errorData.error?.message || response.statusText}`);
+                }
+                const result = await response.json();
+                let rawText = "";
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                    rawText = result.candidates[0].content.parts[0].text;
+                } else { throw new Error("Không nhận được lời sấm truyền hợp lệ."); }
+
+                let processedText = rawText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+                const allNameParts = cardsInfo.flatMap(ci => ci.data.nameParts).sort((a, b) => b.length - a.length);
+                let tempText = processedText;
+                [...new Set(allNameParts)].forEach(part => {
+                    tempText = tempText.replace(new RegExp(`\\b${escapeRegExp(part)}\\b`, 'gi'), (match) => `<span class="highlighted-card-name">${match}</span>`);
+                });
+                aiInterpretationTextElement.innerHTML = tempText;
+            } catch (error) {
+                console.error("Lỗi khi giải lời sấm:", error);
+                aiInterpretationTextElement.innerHTML = `Rất tiếc, các vì sao chưa thể hồi đáp: ${error.message}. Xin hãy thử lại sau.`;
+                showMessage(`Lỗi sấm truyền: ${error.message}`, 5000);
+            } finally {
+                aiLoadingIndicator.classList.add('hidden');
+            }
+        }
+
+        function resetIndividualCardSlot(index) {
+            const cardInnerEl = cardInnerElements[index];
+            const cardSlotEl = cardSlotsElements[index];
+            cardInnerEl.classList.remove('flipped', 'dealt');
+            cardInnerEl.style.transform = ''; 
+            cardSlotEl.classList.remove('flipped'); 
+            
+            const imgEl = cardInnerEl.querySelector('.tarot-card-back img');
+            imgEl.src = ""; 
+            imgEl.alt = `Lá bài ${index + 1}`;
+            const cardFrontSymbolEl = cardInnerEl.querySelector('.tarot-card-front span');
+            cardFrontSymbolEl.textContent = '🂠'; 
+
+            cardInfoDivs[index].classList.add('hidden');
+            cardNamesElements[index].textContent = '';
+            cardMeaningsElements[index].textContent = '';
+        }
+
+        function resetTarotReadingView() {
+            cardInnerElements.forEach((el, index) => resetIndividualCardSlot(index));
+            initialInfoMessage.classList.remove('hidden'); 
+            infoDisplaySection.classList.add('hidden'); 
+            aiInterpretationContainer.classList.add('hidden');
+            aiInterpretationTextElement.innerHTML = '';
+            aiLoadingIndicator.classList.add('hidden');
+            disableResetButton();
+            revealedCount = 0; 
+            drawnCardsData = []; 
+        }
+        
+        function showSection(sectionToShow, sectionToHide) {
+            sectionToHide.classList.remove('section-visible-state');
+            sectionToHide.classList.add('section-hidden-state');
+            setTimeout(() => {
+                sectionToHide.classList.add('hidden'); 
+                sectionToShow.classList.remove('hidden'); 
+                requestAnimationFrame(() => {
+                    sectionToShow.classList.remove('section-hidden-state');
+                    sectionToShow.classList.add('section-visible-state');
+                });
+            }, 700); 
+        }
+
+        function initializeNewReadingSession() {
+            resetTarotReadingView();
+            availableCards = [...tarotDeck];
+            questionSectionWrapper.classList.remove('hidden', 'section-hidden-state');
+            questionSectionWrapper.classList.add('section-visible-state');
+            tarotReadingSectionWrapper.classList.remove('section-visible-state');
+            tarotReadingSectionWrapper.classList.add('section-hidden-state', 'hidden'); 
+            userQuestionInput.value = '';
+            currentUserQuestion = "";
+            if (tarotDeck.length < 3) { showMessage("Bộ bài không đủ 3 lá để trải.", 5000); }
+        }
+
+        submitQuestionButton.addEventListener('click', async () => {
+            const question = userQuestionInput.value.trim();
+            if (!question) { showMessage("Xin hãy cho biết điều ngươi trăn trở."); return; }
+            currentUserQuestion = question;
+            displayUserQuestionElement.textContent = `Lời thỉnh cầu của ngươi: "${currentUserQuestion}"`;
+            
+            showSection(tarotReadingSectionWrapper, questionSectionWrapper);
+            resetTarotReadingView(); 
+            createDeckVisual(); 
+            await shuffleAndDeal(); 
+        });
+
+        cardInnerElements.forEach((cardInnerEl, index) => {
+            cardInnerEl.addEventListener('click', () => {
+                if (isDealing || !cardInnerEl.classList.contains('dealt') || cardInnerEl.parentElement.classList.contains('flipped')) {
+                    return; 
+                }
+
+                const cardDataObj = drawnCardsData[index]; 
+                if (!cardDataObj) return; 
+                
+                const selectedCard = cardDataObj.data;
+                const imgEl = cardInnerEl.querySelector('.tarot-card-back img');
+                imgEl.src = selectedCard.img; 
+
+                cardInnerEl.parentElement.classList.add('flipped');
+                revealedCount++;
+
+                cardNamesElements[index].textContent = selectedCard.name;
+                cardMeaningsElements[index].textContent = selectedCard.meaning;
+                cardInfoDivs[index].classList.remove('hidden');
+                initialInfoMessage.classList.add('hidden');
+
+
+                if (revealedCount === 3) {
+                    enableResetButton();
+                    getAIInterpretation(drawnCardsData, currentUserQuestion);
+                }
+            });
+        });
+
+
+        resetButton.addEventListener('click', () => {
+            showSection(questionSectionWrapper, tarotReadingSectionWrapper);
+             setTimeout(() => { initializeNewReadingSession(); }, 50);
+        });
+
+        window.onload = () => {
+            initializeNewReadingSession();
+            createFireflies(10); 
+            cardImages.forEach((imgElem) => {
+                imgElem.onerror = function() {
+                    this.onerror=null; 
+                    this.src=`https://placehold.co/100x170/CCCCCC/000000?text=Loi&font=IM+Fell+English+SC`;
+                    this.alt='Lỗi tải ảnh';
+                };
+            });
+            cardInnerElements.forEach(innerEl => {
+                const frontSymbol = innerEl.querySelector('.tarot-card-front span');
+                if (frontSymbol) {
+                    frontSymbol.textContent = '🂠'; 
+                }
+            });
+        };
+    </script>
+</body>
+</html>
