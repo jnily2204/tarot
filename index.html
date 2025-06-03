@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xem Bài Tarot - Đặt Câu Hỏi & AI Phân Tích</title>
+    <title>Xem Bài Tarot - Đặt Câu Hỏi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
             height: 100vh;
             z-index: -10;
             overflow: hidden;
-            background-image: url('cid:uploaded:76363ee1c9bed71a54cfe87982e86447.jpg-cf7bdb21-8076-425c-afd3-2e18ec3d669b'); /* Ensure this CID is correct or replace with a direct URL */
+            background-image: url('https://i.postimg.cc/XvZQgqh2/76363ee1c9bed71a54cfe87982e86447.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -91,12 +91,12 @@
             75% { opacity: 1; transform: scale(1.1) translate(10px, 15px); }
         }
 
-        /* Simplified firefly positioning for brevity, retain your original individual positioning */
         .firefly:nth-child(1) { top: 20%; left: 10%; animation-duration: 12s; animation-delay: 0s; }
         .firefly:nth-child(2) { top: 50%; left: 80%; animation-duration: 9s; animation-delay: 1s; width: 2px; height: 2px;}
         .firefly:nth-child(3) { top: 80%; left: 30%; animation-duration: 15s; animation-delay: 2.5s; }
         .firefly:nth-child(4) { top: 10%; left: 90%; animation-duration: 10s; animation-delay: 4s; width: 4px; height: 4px;}
         .firefly:nth-child(5) { top: 65%; left: 50%; animation-duration: 13s; animation-delay: 1.5s; }
+        /* Add more if needed */
 
 
         .card-base {
@@ -135,12 +135,13 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 200px;
-            gap: 20px;
+            gap: 20px; /* Khoảng cách giữa các lá bài */
             margin-bottom: 2rem;
+            flex-wrap: wrap; /* Cho phép các lá bài xuống dòng nếu không đủ chỗ */
         }
 
         .tarot-card-slot {
-            width: 100px;
+            width: 100px; /* Kích thước lá bài */
             height: 170px;
             perspective: 1000px;
             border-radius: 8px;
@@ -156,10 +157,10 @@
             transform-style: preserve-3d;
             border-radius: 8px;
             cursor: pointer;
-            opacity: 0;
+            opacity: 0; /* Bài ẩn ban đầu cho hiệu ứng deal */
         }
         .tarot-card-inner.dealt {
-            opacity: 1;
+            opacity: 1; /* Bài hiện ra sau khi deal */
         }
 
         .tarot-card-slot.flipped .tarot-card-inner {
@@ -180,26 +181,26 @@
         }
 
         .tarot-card-front {
-            background-color: #A0522D;
+            background-color: #A0522D; /* Màu mặt trước lá bài */
             color: #F5DEB3;
-            border: 2px solid #8B4513;
+            border: 2px solid #8B4513; /* Viền mặt trước */
         }
         .tarot-card-front span { font-size: 2rem; }
 
 
         .tarot-card-back {
-            background-color: #F5F5DC; /* Màu nền mặc định cho mặt thẻ, sẽ bị ảnh che */
+            background-color: #F5F5DC;
             color: #5D4037;
             transform: rotateY(180deg);
-            overflow: hidden;
+            overflow: hidden; /* Để bo tròn ảnh */
         }
 
         .tarot-card-back img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-            background-color: #F5F5DC; /* Màu nền fallback cho thẻ img nếu ảnh lỗi */
+            object-fit: cover; /* Đảm bảo ảnh vừa khít và giữ tỷ lệ */
+            border-radius: 8px; /* Bo tròn cho ảnh */
+            background-color: #F5F5DC; /* Màu nền fallback nếu ảnh lỗi */
         }
 
         .btn-action {
@@ -210,128 +211,128 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.2);
         }
         .btn-submit-question {
-            background-color: #FFD700;
-            color: #4A2311;
-            border: 1px solid #B8860B;
-            text-shadow: none;
+            background-color: #FFD700; /* Vàng hoàng kim */
+            color: #4A2311; /* Nâu đậm cho chữ */
+            border: 1px solid #B8860B; /* Viền vàng sẫm hơn */
+            text-shadow: none; /* Bỏ bóng chữ nếu có */
             font-size: 1.1rem;
             padding-top: 0.85rem;
             padding-bottom: 0.85rem;
         }
         .btn-submit-question:hover {
-            background-color: #F0C000;
+            background-color: #F0C000; /* Vàng sáng hơn khi hover */
             color: #3D1B0C;
         }
         #reset-cards-button {
-            background-color: #8B0000;
-            color: #FFEBCD;
-            border: 1px solid #580000;
+            background-color: #8B0000; /* Đỏ đậm */
+            color: #FFEBCD; /* Màu chữ sáng */
+            border: 1px solid #580000; /* Viền đỏ sẫm hơn */
             font-size: 1.1rem;
             padding-top: 0.85rem;
             padding-bottom: 0.85rem;
         }
         #reset-cards-button:hover {
-            background-color: #580000;
+            background-color: #580000; /* Đỏ sẫm hơn khi hover */
         }
 
 
         .info-section-container {
-            background-color: rgba(40, 20, 0, 0.85);
+            background-color: rgba(40, 20, 0, 0.85); /* Nền mờ tối hơn */
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(210, 180, 140, 0.3);
+            border: 1px solid rgba(210, 180, 140, 0.3); /* Viền tan */
             border-radius: 12px;
             padding: 25px;
-            margin-top: 1rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            margin-top: 1rem; /* Tăng khoảng cách từ các lá bài */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); /* Bóng đổ sâu hơn */
             width: 100%;
-            max-width: 720px;
+            max-width: 720px; /* Giới hạn chiều rộng tối đa */
         }
         .card-info-title {
-            color: #FFD700;
+            color: #FFD700; /* Vàng cho tiêu đề lá bài */
             margin-bottom: 5px;
         }
         .card-info-meaning {
             font-size: 0.95rem;
-            color: #F5F5DC;
+            color: #F5F5DC; /* Màu be cho ý nghĩa */
             line-height: 1.7;
-            margin-bottom: 15px;
+            margin-bottom: 15px; /* Khoảng cách giữa các ý nghĩa */
         }
         .ai-interpretation-container {
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid rgba(210, 180, 140, 0.4);
+            border-top: 1px solid rgba(210, 180, 140, 0.4); /* Đường kẻ phân cách */
         }
         .ai-title {
             font-size: 1.75rem;
-            color: #DAA520;
+            color: #DAA520; /* Vàng đồng cho tiêu đề AI */
             margin-bottom: 10px;
             text-align: center;
         }
         .ai-text {
             font-size: 1rem;
-            color: #EAE0C8;
+            color: #EAE0C8; /* Màu kem cho văn bản AI */
             line-height: 1.8;
-            white-space: pre-wrap;
+            white-space: pre-wrap; /* Giữ nguyên định dạng xuống dòng */
         }
         .ai-text .highlighted-card-name {
-            color: #FFDEAD;
+            color: #FFDEAD; /* Màu navajo white cho tên lá bài được highlight */
             font-weight: bold;
         }
         .ai-text strong {
-            color: #FFB74D;
+            color: #FFB74D; /* Màu cam nhạt cho chữ đậm */
             font-weight: bold;
         }
         .ai-text em {
-            color: #FFE0B2;
+            color: #FFE0B2; /* Màu mơ cho chữ nghiêng */
             font-style: italic;
         }
         
         #question-section-content {
-            background-color: rgba(60, 40, 20, 0.7);
+            background-color: rgba(60, 40, 20, 0.7); /* Nền nâu mờ */
             backdrop-filter: blur(5px);
             padding: 30px;
-            border-radius: 1rem;
+            border-radius: 1rem; /* Bo tròn nhiều hơn */
             margin-bottom: 30px;
             width: 100%;
-            max-width: 700px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            border: 1px solid rgba(210, 180, 140, 0.25);
+            max-width: 700px; /* Giới hạn chiều rộng */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4); /* Bóng đổ rõ hơn */
+            border: 1px solid rgba(210, 180, 140, 0.25); /* Viền tinh tế */
         }
         #question-section-content h2 {
-            color: #FFD700;
-            margin-bottom: 1.25rem;
+            color: #FFD700; /* Màu vàng cho tiêu đề */
+            margin-bottom: 1.25rem; /* Tăng khoảng cách dưới */
         }
 
         #user-question-input {
             background-color: transparent;
-            border: none;
-            color: #FFF8DC;
+            border: none; /* Bỏ viền */
+            color: #FFF8DC; /* Màu kem đậm cho chữ */
             padding: 0.75rem 0.25rem;
-            border-radius: 0;
-            font-size: 1.6rem;
+            border-radius: 0; /* Không bo tròn */
+            font-size: 1.6rem; /* Tăng kích thước chữ */
             line-height: 1.5;
-            min-height: 80px;
-            resize: none;
-            outline: none;
+            min-height: 80px; /* Chiều cao tối thiểu */
+            resize: none; /* Không cho phép thay đổi kích thước */
+            outline: none; /* Bỏ viền khi focus */
             width: 100%;
-            text-align: center;
+            text-align: center; /* Căn giữa chữ */
         }
 
         #user-question-input::placeholder {
-            color: rgba(210, 180, 140, 0.7);
+            color: rgba(210, 180, 140, 0.7); /* Màu tan nhạt cho placeholder */
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.6rem;
+            font-size: 1.6rem; /* Cùng kích thước với input */
             animation: blink-placeholder 1.5s infinite;
-            text-align: center;
+            text-align: center; /* Căn giữa placeholder */
         }
 
         #user-question-input:focus::placeholder {
-            animation: none;
-            opacity: 0.4;
+            animation: none; /* Tắt animation khi focus */
+            opacity: 0.4; /* Làm mờ placeholder khi focus */
         }
         #user-question-input:not(:placeholder-shown)::placeholder {
-            display: none;
+            display: none; /* Ẩn placeholder khi có chữ */
         }
 
 
@@ -348,8 +349,8 @@
 
         .section-hidden-state {
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            pointer-events: none;
+            transform: translateY(30px) scale(0.95); /* Hiệu ứng trượt và thu nhỏ */
+            pointer-events: none; /* Không cho tương tác khi ẩn */
         }
 
         .section-visible-state {
@@ -359,8 +360,8 @@
         }
 
         .loader {
-            border: 5px solid #8B4513;
-            border-top: 5px solid #FFD700;
+            border: 5px solid #8B4513; /* Viền nâu sẫm */
+            border-top: 5px solid #FFD700; /* Top màu vàng */
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -377,8 +378,7 @@
     <div id="animated-background">
         </div>
 
-    <div class="w-full max-w-3xl mx-auto text-center relative z-10">
-        <div id="question-section-wrapper" class="transitionable-section">
+    <div class="w-full max-w-3xl mx-auto text-center relative z-10"> <div id="question-section-wrapper" class="transitionable-section">
             <div id="question-section-content">
                 <h2 class="mb-5">Nói cho ta biết, điều gì ngươi tìm kiếm?</h2>
                 <textarea id="user-question-input" placeholder="Ví dụ: Con đường nào đang mở ra cho ta?"></textarea>
@@ -388,8 +388,7 @@
             </div>
         </div>
 
-        <div id="tarot-reading-section-wrapper" class="transitionable-section hidden">
-            <div id="tarot-reading-section-content">
+        <div id="tarot-reading-section-wrapper" class="transitionable-section hidden"> <div id="tarot-reading-section-content">
                 <p id="display-user-question" class="mt-2 mb-6"></p>
                 
                 <div id="deck-container" class="mb-8 hidden"> <p class="text-amber-200 mb-2 text-lg">Đang xào bài...</p>
@@ -473,7 +472,7 @@
 
         const deckContainer = document.getElementById('deck-container');
         const deckPile = document.getElementById('deck-pile');
-        const cardSlotsElements = [
+        const cardSlotsElements = [ // Assuming 3 cards are always drawn
             document.getElementById('card-slot-0'),
             document.getElementById('card-slot-1'),
             document.getElementById('card-slot-2')
@@ -481,7 +480,7 @@
         const cardInnerElements = document.querySelectorAll('#cards-display-area .tarot-card-inner');
 
 
-        const cardImages = [
+        const cardImages = [ // For the 3 drawn cards
             document.getElementById('card-img-0'),
             document.getElementById('card-img-1'),
             document.getElementById('card-img-2')
@@ -513,30 +512,91 @@
         const aiLoadingIndicator = document.getElementById('ai-loading-indicator');
         const aiInterpretationTextElement = document.getElementById('ai-interpretation-text');
 
+        // === BỘ BÀI TAROT 78 LÁ ĐÃ ĐƯỢC CẬP NHẬT ===
         const tarotDeck = [
-            // Major Arcana (22 lá) - Sử dụng URL từ postimg.cc
-            { name: "0 - The Fool", nameParts: ["The Fool", "Fool"], meaning: "Sự khởi đầu mới, ngây thơ, phiêu lưu, tiềm năng không giới hạn, sự tự phát.", img: "https://i.postimg.cc/5ND6VgDK/643e305b9f205802596736.jpg" },
-            { name: "I - The Magician", nameParts: ["The Magician", "Magician"], meaning: "Sức mạnh ý chí, kỹ năng, hành động, tập trung, biểu hiện, tài nguyên.", img: "https://i.postimg.cc/5NpW52SB/643f51cebd6fc372602918.jpg" },
-            { name: "II - The High Priestess", nameParts: ["The High Priestess", "High Priestess"], meaning: "Trực giác, bí ẩn, tiềm thức, trí tuệ nội tâm, sự kiên nhẫn.", img: "https://i.postimg.cc/9XnGDGvZ/6440bfeb45daa924620828.jpg" },
-            { name: "III - The Empress", nameParts: ["The Empress", "Empress"], meaning: "Sự nuôi dưỡng, phong phú, nữ tính, sáng tạo, vẻ đẹp tự nhiên, sự sinh sôi.", img: "https://i.postimg.cc/sxh4Jc8B/64421dc3642e5331994313.jpg" },
-            { name: "IV - The Emperor", nameParts: ["The Emperor", "Emperor"], meaning: "Quyền lực, cấu trúc, sự kiểm soát, lý trí, người cha, sự ổn định.", img: "https://i.postimg.cc/Nfb5zTcL/6440ca04423aa803088771.jpg" },
-            { name: "V - The Hierophant", nameParts: ["The Hierophant", "Hierophant"], meaning: "Truyền thống, đức tin, giáo dục, hướng dẫn tinh thần, sự tuân thủ.", img: "https://i.postimg.cc/wjygQsxC/6442143cc6d12721675057.jpg" },
-            { name: "VI - The Lovers", nameParts: ["The Lovers", "Lovers"], meaning: "Tình yêu, mối quan hệ, sự lựa chọn, sự hòa hợp, giá trị, sự liên kết.", img: "https://i.postimg.cc/hG4F3zK4/643f75de5fa42187988494.jpg" },
-            { name: "VII - The Chariot", nameParts: ["The Chariot", "Chariot"], meaning: "Ý chí, quyết tâm, chiến thắng, sự kiểm soát, tiến về phía trước, sự tự tin.", img: "https://i.postimg.cc/j2PkjtRk/64466e1bb9588170152785.jpg" },
-            { name: "VIII - Strength", nameParts: ["Strength"], meaning: "Sức mạnh nội tâm, lòng dũng cảm, sự kiên nhẫn, kiểm soát bản năng, lòng trắc ẩn.", img: "https://i.postimg.cc/mg2VvQ1n/6446754309a08059278429.jpg" },
-            { name: "IX - The Hermit", nameParts: ["The Hermit", "Hermit"], meaning: "Sự suy ngẫm, cô tịch, tìm kiếm nội tâm, trí tuệ, hướng dẫn, sự tự giác.", img: "https://i.postimg.cc/4xmVvw9X/644776cd15b36247793217.jpg" },
-            { name: "X - Wheel of Fortune", nameParts: ["Wheel of Fortune", "Wheel"], meaning: "Chu kỳ, số phận, sự thay đổi, may mắn, bước ngoặt, cơ hội.", img: "https://i.postimg.cc/qRjv5VPS/6448a1d65ca2c307025465.jpg" },
-            { name: "XI - Justice", nameParts: ["Justice"], meaning: "Sự thật, công bằng, luật nhân quả, trách nhiệm, sự rõ ràng, quyết định.", img: "https://i.postimg.cc/J7ss2thQ/64477df6d145b114005354.jpg" },
-            { name: "XII - The Hanged Man", nameParts: ["The Hanged Man", "Hanged Man"], meaning: "Sự hy sinh, góc nhìn mới, buông bỏ, đình chỉ, sự kiên nhẫn.", img: "https://i.postimg.cc/pXV6vNgk/6448ab982e324297578895.jpg" },
-            { name: "XIII - Death", nameParts: ["Death"], meaning: "Sự kết thúc, chuyển đổi, tái sinh.", img: "https://i.postimg.cc/g0pR9p72/6449de96464fc931611065.jpg" },
-            { name: "XIV - Temperance", nameParts: ["Temperance"], meaning: "Sự cân bằng, điều độ, hòa hợp.", img: "https://i.postimg.cc/jS46SCP7/644a8f06a2a97262712511.jpg" },
-            { name: "XV - The Devil", nameParts: ["The Devil", "Devil"], meaning: "Sự ràng buộc, cám dỗ, nghiện ngập.", img: "https://i.postimg.cc/L6Bgzw5d/644b42ed90c7e737329635.jpg" },
-            { name: "XVI - The Tower", nameParts: ["The Tower", "Tower"], meaning: "Sự thay đổi đột ngột, biến động.", img: "https://i.postimg.cc/qMjMBTg7/644b642cce4fe891891452.jpg" },
-            { name: "XVII - The Star", nameParts: ["The Star", "Star"], meaning: "Hy vọng, cảm hứng, niềm tin.", img: "https://i.postimg.cc/vHcHmKnL/6450948daadbc805081217.jpg" },
-            { name: "XVIII - The Moon", nameParts: ["The Moon", "Moon"], meaning: "Trực giác, ảo ảnh, nỗi sợ.", img: "https://i.postimg.cc/fbKJd9Rx/6450a08c8eb21261517572.jpg" },
-            { name: "XIX - The Sun", nameParts: ["The Sun", "Sun"], meaning: "Niềm vui, thành công, sự rõ ràng.", img: "https://i.postimg.cc/Kv0btDPc/642c49cb896c6121395135.png" },
-            { name: "XX - Judgement", nameParts: ["Judgement"], meaning: "Sự phán xét, sự thức tỉnh, sự tha thứ.", img: "https://i.postimg.cc/k5bDjpsv/642c49bf40ad6363634537.png" },
-            { name: "XXI - The World", nameParts: ["The World", "World"], meaning: "Sự hoàn thành, thành tựu, trọn vẹn.", img: "https://i.postimg.cc/k5bDjpsv/642c49bf40ad6363634537.png" }
+            // Major Arcana (22 lá)
+            { name: "0 - The Fool (Chàng Khờ)", nameParts: ["The Fool", "Chàng Khờ", "Fool"], meaning: "Sự khởi đầu mới, ngây thơ, phiêu lưu, tiềm năng không giới hạn, sự tự phát.", img: "https://i.postimg.cc/5ND6VgDK/643e305b9f205802596736.jpg" },
+            { name: "I - The Magician (Pháp Sư)", nameParts: ["The Magician", "Pháp Sư", "Magician"], meaning: "Sức mạnh ý chí, kỹ năng, hành động, tập trung, biểu hiện, tài nguyên.", img: "https://i.postimg.cc/5NpW52SB/643f51cebd6fc372602918.jpg" },
+            { name: "II - The High Priestess (Nữ Tu)", nameParts: ["The High Priestess", "Nữ Tu", "High Priestess"], meaning: "Trực giác, bí ẩn, tiềm thức, trí tuệ nội tâm, sự kiên nhẫn.", img: "https://i.postimg.cc/9XnGDGvZ/6440bfeb45daa924620828.jpg" },
+            { name: "III - The Empress (Nữ Hoàng)", nameParts: ["The Empress", "Nữ Hoàng", "Empress"], meaning: "Sự nuôi dưỡng, phong phú, nữ tính, sáng tạo, vẻ đẹp tự nhiên, sự sinh sôi.", img: "https://i.postimg.cc/sxh4Jc8B/64421dc3642e5331994313.jpg" },
+            { name: "IV - The Emperor (Hoàng Đế)", nameParts: ["The Emperor", "Hoàng Đế", "Emperor"], meaning: "Quyền lực, cấu trúc, sự kiểm soát, lý trí, người cha, sự ổn định.", img: "https://i.postimg.cc/Nfb5zTcL/6440ca04423aa803088771.jpg" },
+            { name: "V - The Hierophant (Thầy Cả)", nameParts: ["The Hierophant", "Thầy Cả", "Hierophant"], meaning: "Truyền thống, đức tin, giáo dục, hướng dẫn tinh thần, sự tuân thủ.", img: "https://i.postimg.cc/wjygQsxC/6442143cc6d12721675057.jpg" },
+            { name: "VI - The Lovers (Người Yêu)", nameParts: ["The Lovers", "Người Yêu", "Lovers"], meaning: "Tình yêu, mối quan hệ, sự lựa chọn, sự hòa hợp, giá trị, sự liên kết.", img: "https://i.postimg.cc/hG4F3zK4/643f75de5fa42187988494.jpg" },
+            { name: "VII - The Chariot (Cỗ Xe)", nameParts: ["The Chariot", "Cỗ Xe", "Chariot"], meaning: "Ý chí, quyết tâm, chiến thắng, sự kiểm soát, tiến về phía trước, sự tự tin.", img: "https://i.postimg.cc/j2PkjtRk/64466e1bb9588170152785.jpg" },
+            { name: "VIII - Strength (Sức Mạnh)", nameParts: ["Strength", "Sức Mạnh"], meaning: "Sức mạnh nội tâm, lòng dũng cảm, sự kiên nhẫn, kiểm soát bản năng, lòng trắc ẩn.", img: "https://i.postimg.cc/mg2VvQ1n/6446754309a08059278429.jpg" },
+            { name: "IX - The Hermit (Ẩn Sĩ)", nameParts: ["The Hermit", "Ẩn Sĩ", "Hermit"], meaning: "Sự suy ngẫm, cô tịch, tìm kiếm nội tâm, trí tuệ, hướng dẫn, sự tự giác.", img: "https://i.postimg.cc/4xmVvw9X/644776cd15b36247793217.jpg" },
+            { name: "X - Wheel of Fortune (Bánh Xe Số Phận)", nameParts: ["Wheel of Fortune", "Bánh Xe Số Phận", "Wheel"], meaning: "Chu kỳ, số phận, sự thay đổi, may mắn, bước ngoặt, cơ hội.", img: "https://i.postimg.cc/qRjv5VPS/6448a1d65ca2c307025465.jpg" },
+            { name: "XI - Justice (Công Lý)", nameParts: ["Justice", "Công Lý"], meaning: "Sự thật, công bằng, luật nhân quả, trách nhiệm, sự rõ ràng, quyết định.", img: "https://i.postimg.cc/J7ss2thQ/64477df6d145b114005354.jpg" },
+            { name: "XII - The Hanged Man (Người Treo Ngược)", nameParts: ["The Hanged Man", "Người Treo Ngược", "Hanged Man"], meaning: "Sự hy sinh, góc nhìn mới, buông bỏ, đình chỉ, sự kiên nhẫn.", img: "https://i.postimg.cc/pXV6vNgk/6448ab982e324297578895.jpg" },
+            { name: "XIII - Death (Cái Chết)", nameParts: ["Death", "Cái Chết"], meaning: "Sự kết thúc, chuyển đổi, tái sinh.", img: "https://i.postimg.cc/g0pR9p72/6449de96464fc931611065.jpg" },
+            { name: "XIV - Temperance (Sự Tiết Chế)", nameParts: ["Temperance", "Sự Tiết Chế"], meaning: "Sự cân bằng, điều độ, hòa hợp.", img: "https://i.postimg.cc/jS46SCP7/644a8f06a2a97262712511.jpg" },
+            { name: "XV - The Devil (Ác Quỷ)", nameParts: ["The Devil", "Ác Quỷ", "Devil"], meaning: "Sự ràng buộc, cám dỗ, nghiện ngập.", img: "https://i.postimg.cc/L6Bgzw5d/644b42ed90c7e737329635.jpg" },
+            { name: "XVI - The Tower (Ngọn Tháp)", nameParts: ["The Tower", "Ngọn Tháp", "Tower"], meaning: "Sự thay đổi đột ngột, biến động.", img: "https://i.postimg.cc/qMjMBTg7/644b642cce4fe891891452.jpg" },
+            { name: "XVII - The Star (Ngôi Sao)", nameParts: ["The Star", "Ngôi Sao", "Star"], meaning: "Hy vọng, cảm hứng, niềm tin.", img: "https://i.postimg.cc/vHcHmKnL/6450948daadbc805081217.jpg" },
+            { name: "XVIII - The Moon (Mặt Trăng)", nameParts: ["The Moon", "Mặt Trăng", "Moon"], meaning: "Trực giác, ảo ảnh, nỗi sợ.", img: "https://i.postimg.cc/fbKJd9Rx/6450a08c8eb21261517572.jpg" },
+            { name: "XIX - The Sun (Mặt Trời)", nameParts: ["The Sun", "Mặt Trời", "Sun"], meaning: "Niềm vui, thành công, sự rõ ràng.", img: "https://i.postimg.cc/Kv0btDPc/642c49cb896c6121395135.png" },
+            { name: "XX - Judgement (Sự Phán Xét)", nameParts: ["Judgement", "Sự Phán Xét"], meaning: "Sự phán xét, sự thức tỉnh, sự tha thứ.", img: "https://i.postimg.cc/k5bDjpsv/642c49bf40ad6363634537.png" },
+            { name: "XXI - The World (Thế Giới)", nameParts: ["The World", "Thế Giới", "World"], meaning: "Sự hoàn thành, thành tựu, trọn vẹn.", img: "https://i.postimg.cc/k5bDjpsv/642c49bf40ad6363634537.png" },
+            // Wands
+            { name: "Ace of Wands (Lá Át Gậy)", nameParts: ["Ace of Wands", "Lá Át Gậy", "Ace Gậy"], meaning: "Ý nghĩa của Ace of Wands (Lá Át Gậy)...", img: "https://i.postimg.cc/QCHMTYF7/64533d0cb2fa3147679879.jpg" },
+            { name: "Two of Wands (Lá Hai Gậy)", nameParts: ["Two of Wands", "Lá Hai Gậy", "Hai Gậy"], meaning: "Ý nghĩa của Two of Wands (Lá Hai Gậy)...", img: "https://i.postimg.cc/nL27K5hS/645349499e4af539830675.jpg" },
+            { name: "Three of Wands (Lá Ba Gậy)", nameParts: ["Three of Wands", "Lá Ba Gậy", "Ba Gậy"], meaning: "Ý nghĩa của Three of Wands (Lá Ba Gậy)...", img: "https://i.postimg.cc/WzNNvNLT/64534e40674ee799214954.jpg" },
+            { name: "Four of Wands (Lá Bốn Gậy)", nameParts: ["Four of Wands", "Lá Bốn Gậy", "Bốn Gậy"], meaning: "Ý nghĩa của Four of Wands (Lá Bốn Gậy)...", img: "https://i.postimg.cc/Pq50TCN6/64547b3fa5a62553464962.jpg" },
+            { name: "Five of Wands (Lá Năm Gậy)", nameParts: ["Five of Wands", "Lá Năm Gậy", "Năm Gậy"], meaning: "Ý nghĩa của Five of Wands (Lá Năm Gậy)...", img: "https://i.postimg.cc/prWF6Msn/64548481ba0db479736072.jpg" },
+            { name: "Six of Wands (Lá Sáu Gậy)", nameParts: ["Six of Wands", "Lá Sáu Gậy", "Sáu Gậy"], meaning: "Ý nghĩa của Six of Wands (Lá Sáu Gậy)...", img: "https://i.postimg.cc/m2GLRS48/64588f68483bc136716201.jpg" },
+            { name: "Seven of Wands (Lá Bảy Gậy)", nameParts: ["Seven of Wands", "Lá Bảy Gậy", "Bảy Gậy"], meaning: "Ý nghĩa của Seven of Wands (Lá Bảy Gậy)...", img: "https://i.postimg.cc/ryZ1PKLV/6461a7d1117b7390497151.jpg" },
+            { name: "Eight of Wands (Lá Tám Gậy)", nameParts: ["Eight of Wands", "Lá Tám Gậy", "Tám Gậy"], meaning: "Ý nghĩa của Eight of Wands (Lá Tám Gậy)...", img: "https://i.postimg.cc/BQWT0Rtk/64631c01a443e842634790.jpg" },
+            { name: "Nine of Wands (Lá Chín Gậy)", nameParts: ["Nine of Wands", "Lá Chín Gậy", "Chín Gậy"], meaning: "Ý nghĩa của Nine of Wands (Lá Chín Gậy)...", img: "https://i.postimg.cc/HsspVkJy/6463230887213433942331.jpg" },
+            { name: "Ten of Wands (Lá Mười Gậy)", nameParts: ["Ten of Wands", "Lá Mười Gậy", "Mười Gậy"], meaning: "Ý nghĩa của Ten of Wands (Lá Mười Gậy)...", img: "https://i.postimg.cc/vHL3SGX3/6464503598553047849350.jpg" },
+            { name: "Page of Wands (Tiểu Đồng Gậy)", nameParts: ["Page of Wands", "Tiểu Đồng Gậy", "Page Gậy"], meaning: "Ý nghĩa của Page of Wands (Tiểu Đồng Gậy)...", img: "https://i.postimg.cc/xjb0m4g0/64645ee4061dd483664625.jpg" },
+            { name: "Knight of Wands (Hiệp Sĩ Gậy)", nameParts: ["Knight of Wands", "Hiệp Sĩ Gậy", "Knight Gậy"], meaning: "Ý nghĩa của Knight of Wands (Hiệp Sĩ Gậy)...", img: "https://i.postimg.cc/qv6XH0xP/64659fc970c60923004950.jpg" },
+            { name: "Queen of Wands (Nữ Hoàng Gậy)", nameParts: ["Queen of Wands", "Nữ Hoàng Gậy", "Queen Gậy"], meaning: "Ý nghĩa của Queen of Wands (Nữ Hoàng Gậy)...", img: "https://i.postimg.cc/wTLLwFxz/6465a74ad7491577117984.jpg" },
+            { name: "King of Wands (Vua Gậy)", nameParts: ["King of Wands", "Vua Gậy", "King Gậy"], meaning: "Ý nghĩa của King of Wands (Vua Gậy)...", img: "https://i.postimg.cc/QxdZbYJ9/6466ed9deb5e8447525978.jpg" },
+            // Cups
+            { name: "Ace of Cups (Lá Át Cốc)", nameParts: ["Ace of Cups", "Lá Át Cốc", "Ace Cốc"], meaning: "Ý nghĩa của Ace of Cups (Lá Át Cốc)...", img: "https://i.postimg.cc/J79dyTdC/6466f735f21df317422034.jpg" },
+            { name: "Two of Cups (Lá Hai Cốc)", nameParts: ["Two of Cups", "Lá Hai Cốc", "Hai Cốc"], meaning: "Ý nghĩa của Two of Cups (Lá Hai Cốc)...", img: "https://i.postimg.cc/02KRFMhP/646ae1529d382609319839.jpg" },
+            { name: "Three of Cups (Lá Ba Cốc)", nameParts: ["Three of Cups", "Lá Ba Cốc", "Ba Cốc"], meaning: "Ý nghĩa của Three of Cups (Lá Ba Cốc)...", img: "https://i.postimg.cc/1zwDjHrw/646ae7d0c7f9c393213043.jpg" },
+            { name: "Four of Cups (Lá Bốn Cốc)", nameParts: ["Four of Cups", "Lá Bốn Cốc", "Bốn Cốc"], meaning: "Ý nghĩa của Four of Cups (Lá Bốn Cốc)...", img: "https://i.postimg.cc/vHGMgHKs/646c3871b0cff656573075.jpg" },
+            { name: "Five of Cups (Lá Năm Cốc)", nameParts: ["Five of Cups", "Lá Năm Cốc", "Năm Cốc"], meaning: "Ý nghĩa của Five of Cups (Lá Năm Cốc)...", img: "https://i.postimg.cc/vmsvMkB3/646c3f88a56de222861616.jpg" },
+            { name: "Six of Cups (Lá Sáu Cốc)", nameParts: ["Six of Cups", "Lá Sáu Cốc", "Sáu Cốc"], meaning: "Ý nghĩa của Six of Cups (Lá Sáu Cốc)...", img: "https://i.postimg.cc/6qvcLvpp/646d96da452e1840500992.jpg" },
+            { name: "Seven of Cups (Lá Bảy Cốc)", nameParts: ["Seven of Cups", "Lá Bảy Cốc", "Bảy Cốc"], meaning: "Ý nghĩa của Seven of Cups (Lá Bảy Cốc)...", img: "https://i.postimg.cc/nV2hpPFT/646d9b70c074f896673784.jpg" },
+            { name: "Eight of Cups (Lá Tám Cốc)", nameParts: ["Eight of Cups", "Lá Tám Cốc", "Tám Cốc"], meaning: "Ý nghĩa của Eight of Cups (Lá Tám Cốc)...", img: "https://i.postimg.cc/tT5n0RvN/646ed9519c178522107302.jpg" },
+            { name: "Nine of Cups (Lá Chín Cốc)", nameParts: ["Nine of Cups", "Lá Chín Cốc", "Chín Cốc"], meaning: "Ý nghĩa của Nine of Cups (Lá Chín Cốc)...", img: "https://i.postimg.cc/P55jKX1k/646edc0b30243070776066.jpg" },
+            { name: "Ten of Cups (Lá Mười Cốc)", nameParts: ["Ten of Cups", "Lá Mười Cốc", "Mười Cốc"], meaning: "Ý nghĩa của Ten of Cups (Lá Mười Cốc)...", img: "https://i.postimg.cc/FKGk8sBg/64702aeda5068499557917.jpg" },
+            { name: "Page of Cups (Tiểu Đồng Cốc)", nameParts: ["Page of Cups", "Tiểu Đồng Cốc", "Page Cốc"], meaning: "Ý nghĩa của Page of Cups (Tiểu Đồng Cốc)...", img: "https://i.postimg.cc/TYR1MXnt/6470374da5857406158745.jpg" },
+            { name: "Knight of Cups (Hiệp Sĩ Cốc)", nameParts: ["Knight of Cups", "Hiệp Sĩ Cốc", "Knight Cốc"], meaning: "Ý nghĩa của Knight of Cups (Hiệp Sĩ Cốc)...", img: "https://i.postimg.cc/6pJH5Y5b/647576a407b35333424108.jpg" },
+            { name: "Queen of Cups (Nữ Hoàng Cốc)", nameParts: ["Queen of Cups", "Nữ Hoàng Cốc", "Queen Cốc"], meaning: "Ý nghĩa của Queen of Cups (Nữ Hoàng Cốc)...", img: "https://i.postimg.cc/jj9cmX9h/647419538612a830624455.jpg" },
+            { name: "King of Cups (Vua Cốc)", nameParts: ["King of Cups", "Vua Cốc", "King Cốc"], meaning: "Ý nghĩa của King of Cups (Vua Cốc)...", img: "https://i.postimg.cc/50VYXQFV/64741e18bffd6700920912.jpg" },
+            // Swords
+            { name: "Ace of Swords (Lá Át Kiếm)", nameParts: ["Ace of Swords", "Lá Át Kiếm", "Ace Kiếm"], meaning: "Ý nghĩa của Ace of Swords (Lá Át Kiếm)...", img: "https://i.postimg.cc/KvM2HqH0/64757c13ea8b6430239601.jpg" },
+            { name: "Two of Swords (Lá Hai Kiếm)", nameParts: ["Two of Swords", "Lá Hai Kiếm", "Hai Kiếm"], meaning: "Ý nghĩa của Two of Swords (Lá Hai Kiếm)...", img: "https://i.postimg.cc/pLc3VK4m/6476b134a58ac471526192.jpg" },
+            { name: "Three of Swords (Lá Ba Kiếm)", nameParts: ["Three of Swords", "Lá Ba Kiếm", "Ba Kiếm"], meaning: "Ý nghĩa của Three of Swords (Lá Ba Kiếm)...", img: "https://i.postimg.cc/1XN3M9FH/6476b86b15021147126986.jpg" },
+            { name: "Four of Swords (Lá Bốn Kiếm)", nameParts: ["Four of Swords", "Lá Bốn Kiếm", "Bốn Kiếm"], meaning: "Ý nghĩa của Four of Swords (Lá Bốn Kiếm)...", img: "https://i.postimg.cc/cHBpSPSS/64780715c9e4d018768073.jpg" },
+            { name: "Five of Swords (Lá Năm Kiếm)", nameParts: ["Five of Swords", "Lá Năm Kiếm", "Năm Kiếm"], meaning: "Ý nghĩa của Five of Swords (Lá Năm Kiếm)...", img: "https://i.postimg.cc/VLmjvpPh/6478110110631060190541.jpg" },
+            { name: "Six of Swords (Lá Sáu Kiếm)", nameParts: ["Six of Swords", "Lá Sáu Kiếm", "Sáu Kiếm"], meaning: "Ý nghĩa của Six of Swords (Lá Sáu Kiếm)...", img: "https://i.postimg.cc/rmGNYkLS/64795b7b022cf180593074.jpg" },
+            { name: "Seven of Swords (Lá Bảy Kiếm)", nameParts: ["Seven of Swords", "Lá Bảy Kiếm", "Bảy Kiếm"], meaning: "Ý nghĩa của Seven of Swords (Lá Bảy Kiếm)...", img: "https://i.postimg.cc/vZWTnH7L/64796296d6b73591782131.jpg" },
+            { name: "Eight of Swords (Lá Tám Kiếm)", nameParts: ["Eight of Swords", "Lá Tám Kiếm", "Tám Kiếm"], meaning: "Ý nghĩa của Eight of Swords (Lá Tám Kiếm)...", img: "https://i.postimg.cc/bJfKtpTb/647d5fe81931e198509881.jpg" },
+            { name: "Nine of Swords (Lá Chín Kiếm)", nameParts: ["Nine of Swords", "Lá Chín Kiếm", "Chín Kiếm"], meaning: "Ý nghĩa của Nine of Swords (Lá Chín Kiếm)...", img: "https://i.postimg.cc/WtcFRD6z/647d644558d7b273724869.jpg" },
+            { name: "Ten of Swords (Lá Mười Kiếm)", nameParts: ["Ten of Swords", "Lá Mười Kiếm", "Mười Kiếm"], meaning: "Ý nghĩa của Ten of Swords (Lá Mười Kiếm)...", img: "https://i.postimg.cc/gJ9x5Syd/647e9e2c3d8c7503771663.jpg" },
+            { name: "Page of Swords (Tiểu Đồng Kiếm)", nameParts: ["Page of Swords", "Tiểu Đồng Kiếm", "Page Kiếm"], meaning: "Ý nghĩa của Page of Swords (Tiểu Đồng Kiếm)...", img: "https://i.postimg.cc/HnNDZK59/64814fd21b2d5295209893.jpg" },
+            { name: "Knight of Swords (Hiệp Sĩ Kiếm)", nameParts: ["Knight of Swords", "Hiệp Sĩ Kiếm", "Knight Kiếm"], meaning: "Ý nghĩa của Knight of Swords (Hiệp Sĩ Kiếm)...", img: "https://i.postimg.cc/jdzYQ82P/647ea7dda48f2377264917.jpg" },
+            { name: "Queen of Swords (Nữ Hoàng Kiếm)", nameParts: ["Queen of Swords", "Nữ Hoàng Kiếm", "Queen Kiếm"], meaning: "Ý nghĩa của Queen of Swords (Nữ Hoàng Kiếm)...", img: "https://i.postimg.cc/qMH9R8wR/6480010eb4dc1449235090.jpg" },
+            { name: "King of Swords (Vua Kiếm)", nameParts: ["King of Swords", "Vua Kiếm", "King Kiếm"], meaning: "Ý nghĩa của King of Swords (Vua Kiếm)...", img: "https://i.postimg.cc/B6Dm9VdC/648006365a61f958760163.jpg" },
+            // Pentacles
+            { name: "Ace of Pentacles (Lá Át Tiền)", nameParts: ["Ace of Pentacles", "Lá Át Tiền", "Ace Tiền"], meaning: "Ý nghĩa của Ace of Pentacles (Lá Át Tiền)...", img: "https://i.postimg.cc/Qx6kPDF3/64815a1c931ed823839842.jpg" },
+            { name: "Two of Pentacles (Lá Hai Tiền)", nameParts: ["Two of Pentacles", "Lá Hai Tiền", "Hai Tiền"], meaning: "Ý nghĩa của Two of Pentacles (Lá Hai Tiền)...", img: "https://i.postimg.cc/ncsCFfdZ/6482870e86928273770871.jpg" },
+            { name: "Three of Pentacles (Lá Ba Tiền)", nameParts: ["Three of Pentacles", "Lá Ba Tiền", "Ba Tiền"], meaning: "Ý nghĩa của Three of Pentacles (Lá Ba Tiền)...", img: "https://i.postimg.cc/q7BtdhSD/648294ce0e9f2400968374.jpg" },
+            { name: "Four of Pentacles (Lá Bốn Tiền)", nameParts: ["Four of Pentacles", "Lá Bốn Tiền", "Bốn Tiền"], meaning: "Ý nghĩa của Four of Pentacles (Lá Bốn Tiền)...", img: "https://i.postimg.cc/Bbf44RtZ/64a2392a4e976747541841.jpg" },
+            { name: "Five of Pentacles (Lá Năm Tiền)", nameParts: ["Five of Pentacles", "Lá Năm Tiền", "Năm Tiền"], meaning: "Ý nghĩa của Five of Pentacles (Lá Năm Tiền)...", img: "https://i.postimg.cc/3w0sN9sk/64a244a218013729997109.jpg" },
+            { name: "Six of Pentacles (Lá Sáu Tiền)", nameParts: ["Six of Pentacles", "Lá Sáu Tiền", "Sáu Tiền"], meaning: "Ý nghĩa của Six of Pentacles (Lá Sáu Tiền)...", img: "https://i.postimg.cc/JhCq3qyD/64a3890bd055c236176276.jpg" },
+            { name: "Seven of Pentacles (Lá Bảy Tiền)", nameParts: ["Seven of Pentacles", "Lá Bảy Tiền", "Bảy Tiền"], meaning: "Ý nghĩa của Seven of Pentacles (Lá Bảy Tiền)...", img: "https://i.postimg.cc/FsJ3PSXj/64a393cd5db01116454428.jpg" },
+            { name: "Eight of Pentacles (Lá Tám Tiền)", nameParts: ["Eight of Pentacles", "Lá Tám Tiền", "Tám Tiền"], meaning: "Ý nghĩa của Eight of Pentacles (Lá Tám Tiền)...", img: "https://i.postimg.cc/FRd32kJ5/64a4ee1fe4fc2685238165.jpg" },
+            { name: "Nine of Pentacles (Lá Chín Tiền)", nameParts: ["Nine of Pentacles", "Lá Chín Tiền", "Chín Tiền"], meaning: "Ý nghĩa của Nine of Pentacles (Lá Chín Tiền)...", img: "https://i.postimg.cc/rmxz11rm/64a4f4bfe4079342438474.jpg" },
+            { name: "Ten of Pentacles (Lá Mười Tiền)", nameParts: ["Ten of Pentacles", "Lá Mười Tiền", "Mười Tiền"], meaning: "Ý nghĩa của Ten of Pentacles (Lá Mười Tiền)...", img: "https://i.postimg.cc/52X455cV/64a6c5b4c60e7139127123.jpg" },
+            { name: "Page of Pentacles (Tiểu Đồng Tiền)", nameParts: ["Page of Pentacles", "Tiểu Đồng Tiền", "Page Tiền"], meaning: "Ý nghĩa của Page of Pentacles (Tiểu Đồng Tiền)...", img: "https://i.postimg.cc/nLvtT006/64a7c6870f965561345076.jpg" },
+            { name: "Knight of Pentacles (Hiệp Sĩ Tiền)", nameParts: ["Knight of Pentacles", "Hiệp Sĩ Tiền", "Knight Tiền"], meaning: "Ý nghĩa của Knight of Pentacles (Hiệp Sĩ Tiền)...", img: "https://i.postimg.cc/MZ3g7Czn/64a7cb5e007b1621460798.jpg" },
+            { name: "Queen of Pentacles (Nữ Hoàng Tiền)", nameParts: ["Queen of Pentacles", "Nữ Hoàng Tiền", "Queen Tiền"], meaning: "Ý nghĩa của Queen of Pentacles (Nữ Hoàng Tiền)...", img: "https://i.postimg.cc/yx3jXrTR/64a7fd3eea247722329088.jpg" },
+            { name: "King of Pentacles (Vua Tiền)", nameParts: ["King of Pentacles", "Vua Tiền", "King Tiền"], meaning: "Ý nghĩa của King of Pentacles (Vua Tiền)...", img: "https://i.postimg.cc/Z5HQq2sY/64a80945cad7f503593705.jpg" }
         ];
 
 
@@ -557,6 +617,8 @@
         function escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
         function createFireflies(count) {
+            // Clear existing fireflies before creating new ones if this function can be called multiple times
+            // animatedBackground.innerHTML = ''; // Uncomment if needed
             for (let i = 0; i < count; i++) {
                 const firefly = document.createElement('div');
                 firefly.classList.add('firefly');
@@ -574,14 +636,14 @@
         }
 
         function createDeckVisual() {
-            deckPile.innerHTML = '';
-            for (let i = 0; i < 5; i++) {
+            deckPile.innerHTML = ''; // Clear previous deck visuals
+            for (let i = 0; i < 5; i++) { // Show a small stack for visual effect
                 const cardEl = document.createElement('div');
                 cardEl.classList.add('card-base');
-                cardEl.style.bottom = `${i * 2}px`;
+                cardEl.style.bottom = `${i * 2}px`; // Stacking effect
                 cardEl.style.left = `${i * 1}px`;
-                cardEl.style.transform = `rotate(${Math.random() * 4 - 2}deg)`;
-                cardEl.textContent = '🂠';
+                cardEl.style.transform = `rotate(${Math.random() * 4 - 2}deg)`; // Slight random rotation
+                cardEl.textContent = '🂠'; // Card back symbol
                 deckPile.appendChild(cardEl);
             }
         }
@@ -592,15 +654,18 @@
             deckPile.classList.add('shuffling');
             deckContainer.querySelector('p').textContent = "Đang xào bài...";
             
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Shuffling animation time
             deckPile.classList.remove('shuffling');
             deckContainer.querySelector('p').textContent = "Đang chia bài...";
 
             drawnCardsData = [];
-            availableCards = [...tarotDeck];
+            availableCards = [...tarotDeck]; // Use the full 78-card deck
 
-            for (let i = 0; i < 3; i++) {
-                if (availableCards.length === 0) break;
+            for (let i = 0; i < 3; i++) { // Draw 3 cards
+                if (availableCards.length === 0) {
+                    showMessage("Không đủ bài để rút!", 4000);
+                    break;
+                }
 
                 const randomIndex = Math.floor(Math.random() * availableCards.length);
                 const selectedCardData = availableCards.splice(randomIndex, 1)[0];
@@ -612,32 +677,34 @@
 
                 drawnCardsData.push({ data: selectedCardData, element: cardInnerEl, slot: cardSlotEl });
 
-                cardFrontSymbolEl.textContent = '🂠';
-                cardImgEl.src = "";
-                cardImgEl.alt = selectedCardData.name;
+                // Reset card face for dealing animation
+                cardFrontSymbolEl.textContent = '�';
+                cardImgEl.src = ""; // Clear previous image
+                cardImgEl.alt = selectedCardData.name; // Set alt text for accessibility
                 
+                // Create a temporary card for dealing animation from deck to slot
                 const movingCard = document.createElement('div');
                 movingCard.classList.add('card-base');
                 movingCard.textContent = '🂠';
-                movingCard.style.position = 'fixed';
+                movingCard.style.position = 'fixed'; // Use fixed for viewport-relative positioning
                 const deckRect = deckPile.getBoundingClientRect();
                 movingCard.style.left = `${deckRect.left + window.scrollX}px`;
                 movingCard.style.top = `${deckRect.top + window.scrollY}px`;
                 document.body.appendChild(movingCard);
 
-                await new Promise(resolve => setTimeout(resolve, 200));
+                await new Promise(resolve => setTimeout(resolve, 200)); // Short delay before moving
 
                 const slotRect = cardSlotEl.getBoundingClientRect();
                 movingCard.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
                 movingCard.style.transform = `translate(${slotRect.left + window.scrollX - deckRect.left}px, ${slotRect.top + window.scrollY - deckRect.top}px) rotateY(0deg)`;
                 movingCard.style.opacity = '1';
 
-                await new Promise(resolve => setTimeout(resolve, 500));
+                await new Promise(resolve => setTimeout(resolve, 500)); // Wait for animation to complete
                 
-                document.body.removeChild(movingCard);
-                cardInnerEl.classList.add('dealt');
+                document.body.removeChild(movingCard); // Remove animated card
+                cardInnerEl.classList.add('dealt'); // Make the actual card in slot visible
             }
-            deckContainer.classList.add('hidden');
+            deckContainer.classList.add('hidden'); // Hide deck after dealing
             initialInfoMessage.classList.remove('hidden');
             infoDisplaySection.classList.remove('hidden');
             isDealing = false;
@@ -647,14 +714,14 @@
         async function getAIInterpretation(cardsInfo, userQuestion) {
             aiInterpretationContainer.classList.remove('hidden');
             aiLoadingIndicator.classList.remove('hidden');
-            aiInterpretationTextElement.innerHTML = '';
+            aiInterpretationTextElement.innerHTML = ''; // Clear previous interpretation
             const cardFullNames = cardsInfo.map(ci => ci.data.name);
 
             const prompt = `Bạn là một người đọc bài Tarot uyên bác và huyền bí, mang giọng văn cổ xưa như một nhà tiên tri. Người tìm kiếm có một thắc mắc: "${userQuestion}". Họ đã rút được 3 lá bài thiêng: ${cardFullNames.join(', ')}. Dựa trên sự thông tuệ Tarot của bạn, hãy vén màn bí mật, giải thích ý nghĩa tổng hợp của 3 lá bài này trong mối liên hệ với câu hỏi của họ. Hãy đưa ra một lời sấm truyền chi tiết, sâu sắc và mang tính chỉ dẫn. Trong lời tiên tri của bạn, hãy nhấn mạnh những từ khóa hoặc khái niệm Tarot quan trọng bằng cách đặt chúng trong dấu hai hoa thị (ví dụ: **vận mệnh** hoặc **khởi đầu mới**).`;
             let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
             const payload = { contents: chatHistory };
             
-            // API Key đã được thêm vào đây
+            // QUAN TRỌNG: API Key này đã được chia sẻ. Hãy thay thế bằng API Key mới và an toàn của bạn!
             const apiKey = "AIzaSyBH-XIIw5BomTJtB6JrC87t5-Sz5SKy-Bw"; 
             
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
@@ -662,18 +729,24 @@
             try {
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) {
-                    const errorData = await response.json(); throw new Error(`Lỗi từ các vì sao: ${errorData.error?.message || response.statusText}`);
+                    const errorData = await response.json(); 
+                    console.error("API Error Data:", errorData); // Log detailed error
+                    throw new Error(`Lỗi từ các vì sao: ${errorData.error?.message || response.statusText}`);
                 }
                 const result = await response.json();
                 let rawText = "";
                 if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
                     rawText = result.candidates[0].content.parts[0].text;
-                } else { throw new Error("Không nhận được lời sấm truyền hợp lệ."); }
+                } else { 
+                    console.error("Unexpected API response structure:", result);
+                    throw new Error("Không nhận được lời sấm truyền hợp lệ từ các vì sao."); 
+                }
 
+                // Process text for display (bold, italics, and card name highlighting)
                 let processedText = rawText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
-                const allNameParts = cardsInfo.flatMap(ci => ci.data.nameParts).sort((a, b) => b.length - a.length);
+                const allNameParts = cardsInfo.flatMap(ci => ci.data.nameParts).sort((a, b) => b.length - a.length); // Sort by length to match longer names first
                 let tempText = processedText;
-                [...new Set(allNameParts)].forEach(part => {
+                [...new Set(allNameParts)].forEach(part => { // Use Set to avoid duplicate replacements
                     tempText = tempText.replace(new RegExp(`\\b${escapeRegExp(part)}\\b`, 'gi'), (match) => `<span class="highlighted-card-name">${match}</span>`);
                 });
                 aiInterpretationTextElement.innerHTML = tempText;
@@ -688,17 +761,18 @@
 
         function resetIndividualCardSlot(index) {
             const cardInnerEl = cardInnerElements[index];
-            const cardSlotEl = cardSlotsElements[index];
+            const cardSlotEl = cardSlotsElements[index]; // Ensure this is the slot, not the inner part
             cardInnerEl.classList.remove('flipped', 'dealt');
-            cardInnerEl.style.transform = '';
-            cardSlotEl.classList.remove('flipped');
+            cardInnerEl.style.transform = ''; // Reset any transform from flip
+            cardSlotEl.classList.remove('flipped'); // Also reset flipped class on the slot if it was added there
             
             const imgEl = cardInnerEl.querySelector('.tarot-card-back img');
-            imgEl.src = "";
+            imgEl.src = ""; // Clear image
             imgEl.alt = `Lá bài ${index + 1}`;
             const cardFrontSymbolEl = cardInnerEl.querySelector('.tarot-card-front span');
-            cardFrontSymbolEl.textContent = '🂠';
+            cardFrontSymbolEl.textContent = '🂠'; // Reset to card back symbol
 
+            // Hide card info
             cardInfoDivs[index].classList.add('hidden');
             cardNamesElements[index].textContent = '';
             cardMeaningsElements[index].textContent = '';
@@ -706,76 +780,84 @@
 
         function resetTarotReadingView() {
             cardInnerElements.forEach((el, index) => resetIndividualCardSlot(index));
-            initialInfoMessage.classList.remove('hidden');
-            infoDisplaySection.classList.add('hidden');
+            initialInfoMessage.classList.remove('hidden'); // Show initial message
+            infoDisplaySection.classList.add('hidden'); // Hide detailed info section
             aiInterpretationContainer.classList.add('hidden');
             aiInterpretationTextElement.innerHTML = '';
             aiLoadingIndicator.classList.add('hidden');
             disableResetButton();
             revealedCount = 0;
-            drawnCardsData = [];
+            drawnCardsData = []; // Clear data of drawn cards
         }
         
         function showSection(sectionToShow, sectionToHide) {
             sectionToHide.classList.remove('section-visible-state');
             sectionToHide.classList.add('section-hidden-state');
             setTimeout(() => {
-                sectionToHide.classList.add('hidden');
-                sectionToShow.classList.remove('hidden');
-                requestAnimationFrame(() => {
+                sectionToHide.classList.add('hidden'); // Fully hide after transition
+                sectionToShow.classList.remove('hidden'); // Make visible before transition
+                requestAnimationFrame(() => { // Ensure DOM is updated before adding class for transition
                     sectionToShow.classList.remove('section-hidden-state');
                     sectionToShow.classList.add('section-visible-state');
                 });
-            }, 700);
+            }, 700); // Match transition duration
         }
 
         function initializeNewReadingSession() {
             resetTarotReadingView();
-            availableCards = [...tarotDeck];
+            availableCards = [...tarotDeck]; // Reset available cards to full deck
+            // Ensure question section is visible and tarot reading section is hidden
             questionSectionWrapper.classList.remove('hidden', 'section-hidden-state');
             questionSectionWrapper.classList.add('section-visible-state');
             tarotReadingSectionWrapper.classList.remove('section-visible-state');
-            tarotReadingSectionWrapper.classList.add('section-hidden-state', 'hidden');
-            userQuestionInput.value = '';
+            tarotReadingSectionWrapper.classList.add('section-hidden-state', 'hidden'); // Start hidden
+            userQuestionInput.value = ''; // Clear question input
             currentUserQuestion = "";
-            if (tarotDeck.length < 3) { showMessage("Bộ bài không đủ 3 lá để trải.", 5000); }
+            if (tarotDeck.length < 3) { // Check if deck has enough cards
+                 showMessage("Bộ bài không đủ 3 lá để trải. Vui lòng kiểm tra lại cấu hình bộ bài.", 5000);
+            }
         }
 
         submitQuestionButton.addEventListener('click', async () => {
             const question = userQuestionInput.value.trim();
-            if (!question) { showMessage("Xin hãy cho biết điều ngươi trăn trở."); return; }
+            if (!question) {
+                showMessage("Xin hãy cho biết điều ngươi trăn trở.");
+                return;
+            }
             currentUserQuestion = question;
             displayUserQuestionElement.textContent = `Lời thỉnh cầu của ngươi: "${currentUserQuestion}"`;
             
             showSection(tarotReadingSectionWrapper, questionSectionWrapper);
-            resetTarotReadingView();
-            createDeckVisual();
-            await shuffleAndDeal();
+            resetTarotReadingView(); // Reset view before new deal
+            createDeckVisual(); // Show deck pile
+            await shuffleAndDeal(); // Shuffle and deal cards
         });
 
         cardInnerElements.forEach((cardInnerEl, index) => {
             cardInnerEl.addEventListener('click', () => {
+                // Prevent flipping if dealing, not dealt, or already flipped
                 if (isDealing || !cardInnerEl.classList.contains('dealt') || cardInnerEl.parentElement.classList.contains('flipped')) {
                     return;
                 }
 
-                const cardDataObj = drawnCardsData[index];
-                if (!cardDataObj) return;
+                const cardDataObj = drawnCardsData[index]; // Get data for the clicked card
+                if (!cardDataObj) return; // Should not happen if logic is correct
                 
                 const selectedCard = cardDataObj.data;
                 const imgEl = cardInnerEl.querySelector('.tarot-card-back img');
-                imgEl.src = selectedCard.img;
+                imgEl.src = selectedCard.img; // Set the image for the card back (which becomes visible)
 
-                cardInnerEl.parentElement.classList.add('flipped');
+                cardInnerEl.parentElement.classList.add('flipped'); // Flip the card
                 revealedCount++;
 
+                // Display card name and meaning
                 cardNamesElements[index].textContent = selectedCard.name;
                 cardMeaningsElements[index].textContent = selectedCard.meaning;
                 cardInfoDivs[index].classList.remove('hidden');
-                initialInfoMessage.classList.add('hidden');
+                initialInfoMessage.classList.add('hidden'); // Hide initial prompt message
 
 
-                if (revealedCount === 3) {
+                if (revealedCount === 3) { // All cards revealed
                     enableResetButton();
                     getAIInterpretation(drawnCardsData, currentUserQuestion);
                 }
@@ -785,26 +867,32 @@
 
         resetButton.addEventListener('click', () => {
             showSection(questionSectionWrapper, tarotReadingSectionWrapper);
-            setTimeout(() => { initializeNewReadingSession(); }, 50); // Ensure reset happens after transition starts
+            // Delay initialization to allow transition to complete smoothly
+            setTimeout(() => {
+                initializeNewReadingSession();
+            }, 50); // Small delay, adjust if needed
         });
 
         window.onload = () => {
             initializeNewReadingSession();
-            createFireflies(10); // Create 10 dynamic fireflies, you can adjust this number
+            createFireflies(10); // Create 10 dynamic fireflies
+            // Fallback for broken card images
             cardImages.forEach((imgElem) => {
                 imgElem.onerror = function() {
-                    this.onerror=null;
-                    this.src=`https://placehold.co/100x170/CCCCCC/000000?text=Loi&font=IM+Fell+English+SC`; // Placeholder for broken images
-                    this.alt='Lỗi tải ảnh';
+                    this.onerror=null; // Prevent infinite loop if placeholder also fails
+                    this.src=`https://placehold.co/100x170/A0522D/F5DEB3?text=L%C3%A1+B%C3%A0i&font=IM+Fell+English+SC`; // Themed placeholder
+                    this.alt='Lỗi tải ảnh lá bài';
                 };
             });
+            // Ensure card fronts show the back symbol initially
             cardInnerElements.forEach(innerEl => {
                 const frontSymbol = innerEl.querySelector('.tarot-card-front span');
                 if (frontSymbol) {
-                    frontSymbol.textContent = '🂠'; // Default card back symbol
+                    frontSymbol.textContent = '🂠';
                 }
             });
         };
     </script>
 </body>
 </html>
+�
